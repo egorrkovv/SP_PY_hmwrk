@@ -1,13 +1,13 @@
-year = int(input())
+year = int(input("Напишите год"))
 
 def is_year_leap():
     if (year % 4 == 0):
 
-        print("true")
+        print(True)
 
     else: 
 
-        print("false")
+        print(False)
 
 
 is_year_leap()

@@ -1,4 +1,4 @@
-n = int()
+
 def fizz_buzz(n):
 
     for n in range(1, n + 1):
