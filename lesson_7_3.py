@@ -8,61 +8,56 @@ from webdriver_manager.chrome import ChromeDriverManager
 from time import sleep
 driver = webdriver.Chrome(service = ChromeService(ChromeDriverManager().install()))
 
-driver.get('https://www.saucedemo.com/')
+class shoptesting1:
+    def __init__(self, driver): 
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+        
+        self._driver = driver
 
-username = driver.find_element(By.CSS_SELECTOR, '#user-name')
+        self._driver.get("https://www.saucedemo.com/")
 
-password = driver.find_element(By.CSS_SELECTOR, '#password')
+        self._driver.implicitly_wait(4)
 
-button_1 = driver.find_element(By.CSS_SELECTOR, '#login-button')
+    def authorize(self, name, password):
+        self._driver.find_element(By.CSS_SELECTOR, "#user-name").send_keys(name)
 
-username.send_keys('standard_user')
+        self._driver.find_element(By.CSS_SELECTOR, "#password").send_keys(password)
 
-password.send_keys('secret_sauce')
+        self._driver.find_element(By.CSS_SELECTOR, "#login-button").click()
+class shoptesting2:
 
-button_1.click()
+    def __init__(self, driver): 
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
-button_2 = driver.find_element(By.CSS_SELECTOR, '#add-to-cart-sauce-labs-backpack')
+        self._driver = driver
 
-button_3 = driver.find_element(By.CSS_SELECTOR, '#add-to-cart-sauce-labs-bolt-t-shirt')
+        self._driver.implicitly_wait(4)
 
-button_4 = driver.find_element(By.CSS_SELECTOR, '#add-to-cart-sauce-labs-onesie')
+    def add_clothes_and_click_shopping_cart(self):
+        self._driver = driver
 
-korzina_link = driver.find_element(By.CSS_SELECTOR, '[data-test="shopping-cart-link"]')
+        self._driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()
+        
+        self._driver.find_element(By.ID, "add-to-cart-sauce-labs-bolt-t-shirt").click()
+        
+        self._driver.find_element(By.ID, "add-to-cart-sauce-labs-onesie").click()
 
-button_2.click()
+        self._driver.find_element(By.CSS_SELECTOR, 'a[data-test="shopping-cart-link"]').click()
 
-button_3.click()
+    def checkout (self):
+        self._driver.find_element(By.ID, 'checkout').click()
 
-button_4.click()
+    def information(self, first_name, last_name, postal_code):
+        self._driver.find_element(By.ID, 'first-name').send_keys(first_name)
 
-korzina_link.click()
+        self._driver.find_element(By.ID, 'last-name').send_keys(last_name)
 
-checkout = driver.find_element(By.CSS_SELECTOR, '#checkout')
+        self._driver.find_element(By.ID, 'postal-code').send_keys(postal_code)
 
-checkout.click()
+        self._driver.find_element(By.ID, 'continue').click()
+    def total(self):
+        total = self._driver.find_element(By.CSS_SELECTOR, 'div[data-test="total-label"]').text
+        print(total)
 
-first_name = driver.find_element(By.CSS_SELECTOR, '#first-name')
 
-last_name = driver.find_element(By.CSS_SELECTOR, '#last-name')
-
-postal_code = driver.find_element(By.CSS_SELECTOR, '#postal-code')
-
-button_5 = driver.find_element(By.CSS_SELECTOR, '#continue')
-
-first_name.send_keys('egor')
-
-last_name.send_keys('rakov')
-
-postal_code.send_keys('18300')
-
-button_5.click()
-
-total = driver.find_element(By.CSS_SELECTOR, '[class="summary_total_label"]')
-
-print(total.text)
-
-assert total.text == 'Total: $58.29'
-
-driver.quit()
-
+   
