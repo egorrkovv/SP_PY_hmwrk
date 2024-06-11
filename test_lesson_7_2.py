@@ -9,36 +9,30 @@ import pytest
 from time import sleep
 driver = webdriver.Chrome(service = ChromeService(ChromeDriverManager().install()))
 
-class calculator_testing:
-    def __init__(self, driver): 
-        self._driver = driver
-        self._driver.get("https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html")
-        self._driver.implicitly_wait(4)
-        
-    def delay(self):
-        self._driver.find_element(By.ID, 'delay').clear()
-        self._driver.find_element(By.ID, 'delay').send_keys("45")
 
-    def click_buttons(self):
-        self._driver.find_element(By.XPATH, '//html/body/main/div/div[4]/div/div/div[2]/span[1]').click()
-        self._driver.find_element(By.XPATH, '//html/body/main/div/div[4]/div/div/div[2]/span[4]').click()
-        self._driver.find_element(By.XPATH, '//html/body/main/div/div[4]/div/div/div[2]/span[2]').click()
-        self._driver.find_element(By.CSS_SELECTOR, 'div[class="screen"]').click()
-    
-    def wait_for_result(self):
-        waiter = WebDriverWait(self._driver, 60) 
-        waiter.until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, 'div[class="screen"]'), "15"))
+def test(): 
+    driver = webdriver.Chrome(service = ChromeService(ChromeDriverManager().install()))
+    driver.get("https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html")
+    driver.implicitly_wait(4)
         
 
-    
-    def close_driver(self):
-        self._driver.quit()
+    driver.find_element(By.ID, 'delay').clear()
+    driver.find_element(By.ID, 'delay').send_keys("45")
 
-def test_calculator():
-    calculator = calculator_testing(driver)
-    calculator.delay()
-    calculator.click_buttons()
-    sleep(60)
-    assert calculator.wait_for_result() == '15'
+    driver.find_element(By.CSS_SELECTOR, '#calculator > div.keys > span:nth-child(1)').click()
+    driver.find_element(By.CSS_SELECTOR, '#calculator > div.keys > span:nth-child(4)').click()
+    driver.find_element(By.CSS_SELECTOR, '#calculator > div.keys > span:nth-child(2)').click()
+    driver.find_element(By.CSS_SELECTOR, '#calculator > div.keys > span.btn.btn-outline-warning').click()
+    driver.find_element(By.CSS_SELECTOR, 'div[class="screen"]').click()
+    
+    result = WebDriverWait(driver, 46).until(EC.text_to_be_present_in_element((By.CLASS_NAME, 'screen'), "15"))
+    
+    result_text = driver.find_element(By.CLASS_NAME, 'screen').text
+
+    assert result_text == "15"
+        
+
+    driver.quit()
+
 
 

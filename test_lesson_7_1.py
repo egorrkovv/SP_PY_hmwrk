@@ -7,53 +7,60 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 driver = webdriver.Chrome(service = ChromeService(ChromeDriverManager().install()))
-class forma_testing:
-    def __init__(self, driver): 
-        self._driver = driver
-        self._driver.get("https://bonigarcia.dev/selenium-webdriver-java/data-types.html")
-        self._driver.implicitly_wait(4)
 
-    def fields(self, name, last, address, email, phone, city, country, job, company):
-        self._driver.find_element(By.CSS_SELECTOR, 'input[name = "first-name"]').send_keys(name)
+def test():
+    driver = webdriver.Chrome(service = ChromeService(ChromeDriverManager().install()))
 
-        self._driver.find_element(By.CSS_SELECTOR, 'input[name = "last-name"]').send_keys(last)
+    driver.implicitly_wait(4)
 
-        self._driver.find_element(By.CSS_SELECTOR, 'input[name = "address"]').send_keys(address)
+    driver.get('https://bonigarcia.dev/selenium-webdriver-java/data-types.html')
 
-        self._driver.find_element(By.CSS_SELECTOR, 'input[name = "e-mail"]').send_keys(email)
+    driver.find_element(By.CSS_SELECTOR, 'input[name = "first-name"]').send_keys('Иван')
 
-        self._driver.find_element(By.CSS_SELECTOR, 'input[name = "phone"]').send_keys(phone)
+    driver.find_element(By.CSS_SELECTOR, 'input[name = "last-name"]').send_keys('Петров')
 
-        self._driver.find_element(By.CSS_SELECTOR, 'input[name = "city"]').send_keys(city)
+    driver.find_element(By.CSS_SELECTOR, 'input[name = "address"]').send_keys('Ленина, 55-3')
 
-        self._driver.find_element(By.CSS_SELECTOR, 'input[name = "country"]').send_keys(country)
+    driver.find_element(By.CSS_SELECTOR, 'input[name = "e-mail"]').send_keys('test@skypro.com')
 
-        self._driver.find_element(By.CSS_SELECTOR, 'input[name = "job-position"]').send_keys(job)
+    driver.find_element(By.CSS_SELECTOR, 'input[name = "phone"]').send_keys('7985899998787')
 
-        self._driver.find_element(By.CSS_SELECTOR, 'input[name = "company"]').send_keys(company)
+    driver.find_element(By.CSS_SELECTOR, 'input[name = "city"]').send_keys('Москва')
 
-        submit = self._driver.find_element(By.CSS_SELECTOR, "button[class='btn btn-outline-primary mt-3']")
+    driver.find_element(By.CSS_SELECTOR, 'input[name = "country"]').send_keys('Россия')
 
-        submit.click()
+    driver.find_element(By.CSS_SELECTOR, 'input[name = "job-position"]').send_keys('QA')
 
+    driver.find_element(By.CSS_SELECTOR, 'input[name = "company"]').send_keys('SkyPro')
 
-    def zip_code(self):        
-        zip_code = self._driver.find_element(By.CSS_SELECTOR, 'div[id="zip-code"]').value_of_css_property("color")
-        return zip_code
+    submit = driver.find_element(By.CSS_SELECTOR, "button[class='btn btn-outline-primary mt-3']")
 
-    def all_fields(self):  
-        all_fields = ["#first-name, #last-name, #address, #e-mail, #phone, #city, #country, #job-position, #company"]
-        for field in all_fields:
-            color = self._driver.find_element(By.CSS_SELECTOR, field).value_of_css_property("color")
-            return color
+    submit.click()
 
-def test_fields():
-    testing = forma_testing(driver)
+    assert "danger" in driver.find_element(By.ID, "zip-code").get_attribute('class')
 
-    testing.fields("Иван", "Петров", "Ленина, 55-3", "test@skypro.com", "+7985899998787", "Москва", "Россия", "QA", "SkyPro")
+    assert "success" in driver.find_element(By.ID, "first-name").get_attribute('class')
+
+    assert "success" in driver.find_element(By.ID, "last-name").get_attribute('class')
+
+    assert "success" in driver.find_element(By.ID, "address").get_attribute('class')
+
+    assert "success" in driver.find_element(By.ID, "e-mail").get_attribute('class')
+
+    assert "success" in driver.find_element(By.ID, "phone").get_attribute('class')
+
+    assert "success" in driver.find_element(By.ID, "city").get_attribute('class')
+
+    assert "success" in driver.find_element(By.ID, "country").get_attribute('class')
+
+    assert "success" in driver.find_element(By.ID, "job-position").get_attribute('class')
+
+    assert "success" in driver.find_element(By.ID, "company").get_attribute('class')
     
-    assert testing.zip_code() == 'rgba(132, 32, 41, 1)' 
-    
-    assert testing.all_fields() == 'rgba(15, 81, 50, 1)' 
 
-    driver.quit()
+
+
+    
+
+
+    
